@@ -1,5 +1,9 @@
 import Shop from "./Shop";
 import Item from "./Item";
+
+const MIN_QUALITY = 0;
+const MAX_QUALITY = 50;
+
 function aShopWith(...items) {
   return new Shop(items)
 }
@@ -12,6 +16,9 @@ function agedBrie(sellIn, quality) {
   return new Item("Aged Brie", sellIn, quality);
 }
 
+function sulfuras(sellIn, quality) {
+  return new Item("Sulfuras", sellIn, quality);
+}
 
 describe('Gilded rose shop', () => {
   test("SellIn and Quality decrease 1 after updateQuality", () => {
@@ -46,25 +53,40 @@ describe('Gilded rose shop', () => {
   });
 
   test("The Quality of an item is never negative", () => {
-    const shop = aShopWith(normalItem(1,0));
-    const expectedShop = aShopWith(normalItem(0, 0));
+    const shop = aShopWith(normalItem(3,1));
     shop.updateQuality()
+
+    const expectedShop = aShopWith(normalItem(2, MIN_QUALITY));
+    expect(shop).toEqual(expectedShop);
+  });
+
+  // same test but with a corner case:
+  test("The Quality of an OUTdated item is never negative", () => {
+    const shop = aShopWith(normalItem(0,1));
+    shop.updateQuality()
+    const expectedShop = aShopWith(normalItem(-1, MIN_QUALITY));
     expect(shop).toEqual(expectedShop);
   });
 
   test("\"Aged Brie\" actually increases in Quality the older it gets", () => {
-    const shop = aShopWith(agedBrie(1,2));
-    const expectedShop = aShopWith(agedBrie(0, 3));
+    const shop = aShopWith(agedBrie(4,3));
     shop.updateQuality()
+    const expectedShop = aShopWith(agedBrie(3, 4));
     expect(shop).toEqual(expectedShop);
   });
 
   test("The Quality of an item is never more than 50", () => {
     const shop = aShopWith(agedBrie(1,50));
-    const expectedShop = aShopWith(agedBrie(0, 50));
     shop.updateQuality()
+    const expectedShop = aShopWith(agedBrie(0, MAX_QUALITY));
     expect(shop).toEqual(expectedShop);
   });
 
+  xtest("\"Sulfuras\" never has to be sold or decreases in Quality", () => {
+    const shop = aShopWith(sulfuras(10,20));
+    shop.updateQuality()
+    const expectedShop = aShopWith(sulfuras(10, 20));
+    expect(shop).toEqual(expectedShop);
+  });
 
 });
