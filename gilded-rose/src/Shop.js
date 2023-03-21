@@ -10,12 +10,21 @@ function isSulfuras(item) {
   return item.name === 'Sulfuras, Hand of Ragnaros';
 }
 
+
 function decreaseQuality(item) {
-  item.quality = item.quality - 1;
+  if (item.quality > 0) {
+    item.quality = item.quality - 1;
+  }
 }
 
 function increaseQuality(item) {
-  item.quality = item.quality + 1;
+  if (item.quality < 50) {
+    item.quality = item.quality + 1;
+  }
+}
+
+function decreaseSellIn(item) {
+  item.sellIn = item.sellIn - 1;
 }
 
 export default class Shop {
@@ -28,46 +37,38 @@ export default class Shop {
       const item = this.items[i];
 
       if (!isAgedBrie(item) && !isBackstage(item)) {
-          if (item.quality > 0) {
             if (!isSulfuras(item)) {
               decreaseQuality(item);
-            }
           }
         } else {
           if (item.quality < 50) {
             item.quality = item.quality + 1;
             if (isBackstage(item)) {
               if (item.sellIn < 11) {
-                if (item.quality < 50) {
-                  increaseQuality(item);
-                }
+                increaseQuality(item);
               }
               if (item.sellIn < 6) {
-                if (item.quality < 50) {
-                  item.quality = item.quality + 1;
-                }
+                increaseQuality(item)
               }
             }
           }
         }
-        if (isSulfuras(item)) {
-          item.sellIn = item.sellIn - 1;
+        if (!isSulfuras(item)) {
+          decreaseSellIn(item);
         }
         if (item.sellIn < 0) {
-          if (isAgedBrie(item)) {
-            if (item.name != 'Backstage passes to a TAFKAL80ETC concert') {
+          if (!isAgedBrie(item)) {
+            if (!isBackstage(item)) {
               if (item.quality > 0) {
-                if (isSulfuras(item)) {
-                  item.quality = item.quality - 1;
+                if (!isSulfuras(item)) {
+                 decreaseQuality(item);
                 }
               }
             } else {
               item.quality = item.quality - item.quality;
             }
           } else {
-            if (item.quality < 50) {
-              item.quality = item.quality + 1;
-            }
+            increaseQuality(item)
           }
         }
       }
