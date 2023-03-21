@@ -57,7 +57,7 @@ describe('Gilded rose shop', () => {
   });
 
   test("The Quality of an item is never negative", () => {
-    const shop = aShopWith(normalItem(3,1));
+    const shop = aShopWith(normalItem(3,MIN_QUALITY));
     shop.updateQuality()
 
     const expectedShop = aShopWith(normalItem(2, MIN_QUALITY));
@@ -72,7 +72,7 @@ describe('Gilded rose shop', () => {
     expect(shop).toEqual(expectedShop);
   });
 
-  test("\"Aged Brie\" actually increases in Quality the older it gets", () => {
+  test("\"Aged Brie\" increases in Quality by 1 the older it gets", () => {
     const shop = aShopWith(agedBrie(4,3));
     shop.updateQuality()
     const expectedShop = aShopWith(agedBrie(3, 4));
@@ -80,9 +80,9 @@ describe('Gilded rose shop', () => {
   });
 
   test("The Quality of an item is never more than 50", () => {
-    const shop = aShopWith(agedBrie(1,50));
+    const shop = aShopWith(agedBrie(2,MAX_QUALITY));
     shop.updateQuality()
-    const expectedShop = aShopWith(agedBrie(0, MAX_QUALITY));
+    const expectedShop = aShopWith(agedBrie(1, MAX_QUALITY));
     expect(shop).toEqual(expectedShop);
   });
 
@@ -94,16 +94,26 @@ describe('Gilded rose shop', () => {
   });
 
   test("\"Backstage passes\" increases in Quality by 2 when there are 10 days or less", () => {
-    const shop = aShopWith(backstage(10,20));
+    const shop = aShopWith(
+        backstage(10,20),
+        backstage(6,10),
+        backstage(7,49));
     shop.updateQuality()
-    const expectedShop = aShopWith(backstage(9, 22));
+    const expectedShop = aShopWith(
+        backstage(9, 22),
+        backstage(5,12),
+        backstage(6, MAX_QUALITY));
     expect(shop).toEqual(expectedShop);
   });
 
-  test("\"Backstage passes\" increases in Quality by 3 when there are 5 days or less", () => {
-    const shop = aShopWith(backstage(5,20));
+  test("\"Backstage passes\" increases in Quality by 3 when there are 5 days or less BUT never more than 50", () => {
+    const shop = aShopWith(
+        backstage(5,20),
+        backstage(5, 49));
     shop.updateQuality()
-    const expectedShop = aShopWith(backstage(4, 23));
+    const expectedShop = aShopWith(
+        backstage(4, 23),
+        backstage(4, MAX_QUALITY));
     expect(shop).toEqual(expectedShop);
   });
 
@@ -111,6 +121,26 @@ describe('Gilded rose shop', () => {
     const shop = aShopWith(backstage(0,20));
     shop.updateQuality()
     const expectedShop = aShopWith(backstage(-1, MIN_QUALITY));
+    expect(shop).toEqual(expectedShop);
+  });
+
+  // test uncovered lines:
+
+  test("OUTdated \"Aged Brie\" increases in Quality by 2", () => {
+    const shop = aShopWith(agedBrie(-1,3));
+    shop.updateQuality()
+    const expectedShop = aShopWith(agedBrie(-2, 5));
+    expect(shop).toEqual(expectedShop);
+  });
+
+  // test to cover after mutants:
+
+  test("\"Backstage passes\" Quality increases by 1 when sellIn is above 10", () => {
+    const shop = aShopWith(backstage(11, 10));
+
+    shop.updateQuality();
+
+    const expectedShop = aShopWith(backstage(10, 11));
     expect(shop).toEqual(expectedShop);
   });
 
