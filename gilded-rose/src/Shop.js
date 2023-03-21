@@ -10,6 +10,14 @@ function isSulfuras(item) {
   return item.name === 'Sulfuras, Hand of Ragnaros';
 }
 
+function decreaseQuality(item) {
+  item.quality = item.quality - 1;
+}
+
+function increaseQuality(item) {
+  item.quality = item.quality + 1;
+}
+
 export default class Shop {
   constructor(someItems) {
     this.items = someItems;
@@ -18,10 +26,11 @@ export default class Shop {
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
       const item = this.items[i];
+
       if (!isAgedBrie(item) && !isBackstage(item)) {
           if (item.quality > 0) {
             if (!isSulfuras(item)) {
-              item.quality = item.quality - 1;
+              decreaseQuality(item);
             }
           }
         } else {
@@ -30,7 +39,7 @@ export default class Shop {
             if (isBackstage(item)) {
               if (item.sellIn < 11) {
                 if (item.quality < 50) {
-                  item.quality = item.quality + 1;
+                  increaseQuality(item);
                 }
               }
               if (item.sellIn < 6) {
