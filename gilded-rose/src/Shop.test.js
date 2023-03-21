@@ -17,7 +17,11 @@ function agedBrie(sellIn, quality) {
 }
 
 function sulfuras(sellIn, quality) {
-  return new Item("Sulfuras", sellIn, quality);
+  return new Item("Sulfuras, Hand of Ragnaros", sellIn, quality);
+}
+
+function backstage(sellIn, quality) {
+  return new Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality);
 }
 
 describe('Gilded rose shop', () => {
@@ -82,10 +86,31 @@ describe('Gilded rose shop', () => {
     expect(shop).toEqual(expectedShop);
   });
 
-  xtest("\"Sulfuras\" never has to be sold or decreases in Quality", () => {
+  test("\"Sulfuras\" never has to be sold or decreases in Quality", () => {
     const shop = aShopWith(sulfuras(10,20));
     shop.updateQuality()
     const expectedShop = aShopWith(sulfuras(10, 20));
+    expect(shop).toEqual(expectedShop);
+  });
+
+  test("\"Backstage passes\" increases in Quality by 2 when there are 10 days or less", () => {
+    const shop = aShopWith(backstage(10,20));
+    shop.updateQuality()
+    const expectedShop = aShopWith(backstage(9, 22));
+    expect(shop).toEqual(expectedShop);
+  });
+
+  test("\"Backstage passes\" increases in Quality by 3 when there are 5 days or less", () => {
+    const shop = aShopWith(backstage(5,20));
+    shop.updateQuality()
+    const expectedShop = aShopWith(backstage(4, 23));
+    expect(shop).toEqual(expectedShop);
+  });
+
+  test("\"Backstage passes\"'s Quality drops to 0 after the concert", () => {
+    const shop = aShopWith(backstage(0,20));
+    shop.updateQuality()
+    const expectedShop = aShopWith(backstage(-1, MIN_QUALITY));
     expect(shop).toEqual(expectedShop);
   });
 
