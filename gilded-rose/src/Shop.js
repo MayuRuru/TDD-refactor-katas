@@ -41,8 +41,7 @@ export default class Shop {
               decreaseQuality(item);
           }
         } else {
-          if (item.quality < 50) {
-            item.quality = item.quality + 1;
+          increaseQuality(item)
             if (isBackstage(item)) {
               if (item.sellIn < 11) {
                 increaseQuality(item);
@@ -52,29 +51,25 @@ export default class Shop {
               }
             }
           }
-        }
+
         if (!isSulfuras(item)) {
           decreaseSellIn(item);
         }
         if (item.sellIn < 0) {
           if (!isAgedBrie(item)) {
             if (!isBackstage(item)) {
-              if (item.quality > 0) {
-                if (!isSulfuras(item)) {
-                 decreaseQuality(item);
-                }
+              if (!isSulfuras(item)) {
+                decreaseQuality(item);
               }
             } else {
-              item.quality = item.quality - item.quality;
+              item.quality = 0;
             }
           } else {
             increaseQuality(item)
           }
         }
       }
-
       return this.items;
   }
-
 }
 
