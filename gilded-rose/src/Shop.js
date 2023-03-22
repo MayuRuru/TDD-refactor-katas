@@ -36,40 +36,45 @@ export default class Shop {
     for (let i = 0; i < this.items.length; i++) {
       const item = this.items[i];
 
-      if (!isAgedBrie(item) && !isBackstage(item)) {
-            if (!isSulfuras(item)) {
-              decreaseQuality(item);
-          }
-        } else {
-          increaseQuality(item)
-            if (isBackstage(item)) {
-              if (item.sellIn < 11) {
-                increaseQuality(item);
-              }
-              if (item.sellIn < 6) {
-                increaseQuality(item)
-              }
-            }
-          }
-
-        if (!isSulfuras(item)) {
-          decreaseSellIn(item);
-        }
-        if (item.sellIn < 0) {
-          if (!isAgedBrie(item)) {
-            if (!isBackstage(item)) {
-              if (!isSulfuras(item)) {
-                decreaseQuality(item);
-              }
-            } else {
-              item.quality = 0;
-            }
-          } else {
-            increaseQuality(item)
-          }
-        }
-      }
+      updateItem(item);
+    }
       return this.items;
+  }
+}
+
+function updateItem(item) {
+  if (!isAgedBrie(item) && !isBackstage(item)) {
+    if (!isSulfuras(item)) {
+      decreaseQuality(item);
+    }
+  } else {
+    increaseQuality(item)
+    if (isBackstage(item)) {
+      if (item.sellIn < 11) {
+        increaseQuality(item);
+      }
+      if (item.sellIn < 6) {
+        increaseQuality(item)
+      }
+    }
+  }
+
+  if (!isSulfuras(item)) {
+    decreaseSellIn(item);
+  }
+  if (item.sellIn < 0) {
+    if (!isAgedBrie(item)) {
+      if (!isBackstage(item)) {
+        if (!isSulfuras(item)) {
+          decreaseQuality(item);
+        }
+      } else {
+        //this.items[i].quality = this.items[i].quality - this.items[i].quality;
+        item.quality = 0;
+      }
+    } else {
+      increaseQuality(item)
+    }
   }
 }
 
