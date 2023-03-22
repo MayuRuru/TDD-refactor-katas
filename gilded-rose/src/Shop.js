@@ -43,10 +43,13 @@ export default class Shop {
 }
 
 function updateItem(item) {
+  if (isSulfuras(item)){
+    return;
+  }
   if (!isAgedBrie(item) && !isBackstage(item)) {
-    if (!isSulfuras(item)) {
+
       decreaseQuality(item);
-    }
+
   } else {
     increaseQuality(item)
     if (isBackstage(item)) {
@@ -59,15 +62,15 @@ function updateItem(item) {
     }
   }
 
-  if (!isSulfuras(item)) {
+
     decreaseSellIn(item);
-  }
+
   if (item.sellIn < 0) {
     if (!isAgedBrie(item)) {
       if (!isBackstage(item)) {
-        if (!isSulfuras(item)) {
+
           decreaseQuality(item);
-        }
+
       } else {
         //this.items[i].quality = this.items[i].quality - this.items[i].quality;
         item.quality = 0;
