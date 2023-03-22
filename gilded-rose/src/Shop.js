@@ -35,7 +35,6 @@ export default class Shop {
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
       const item = this.items[i];
-
       updateItem(item);
     }
       return this.items;
@@ -46,11 +45,11 @@ function updateItem(item) {
   if (isSulfuras(item)){
     return;
   }
+
   if (!isAgedBrie(item) && !isBackstage(item)) {
-
       decreaseQuality(item);
-
-  } else {
+  }
+  else {
     increaseQuality(item)
     if (isBackstage(item)) {
       if (item.sellIn < 11) {
@@ -62,15 +61,12 @@ function updateItem(item) {
     }
   }
 
-
-    decreaseSellIn(item);
+  decreaseSellIn(item);
 
   if (item.sellIn < 0) {
     if (!isAgedBrie(item)) {
       if (!isBackstage(item)) {
-
           decreaseQuality(item);
-
       } else {
         //this.items[i].quality = this.items[i].quality - this.items[i].quality;
         item.quality = 0;
