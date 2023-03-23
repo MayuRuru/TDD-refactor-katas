@@ -47,28 +47,34 @@ function updateItem(item) {
   }
 
   if (isAgedBrie(item)) {
-    increaseQuality(item)
+    increaseQuality(item);
+    decreaseSellIn(item);
   }else if (isBackstage(item)) {
-    increaseQuality(item)
+    increaseQuality(item);
+    //decreaseSellIn(item);
+
     if (item.sellIn < 11) {
       increaseQuality(item);
     }
     if (item.sellIn < 6) {
       increaseQuality(item)
     }
+    decreaseSellIn(item);
+    if (item.sellIn <0){
+      //this.items[i].quality = this.items[i].quality - this.items[i].quality;
+      item.quality = 0;
+    }
   }else{
     decreaseQuality(item);
+    decreaseSellIn(item);
   }
 
-  decreaseSellIn(item);
+  //decreaseSellIn(item);
 
   if (item.sellIn < 0) {
     if(isAgedBrie(item)){
       increaseQuality(item)
-    }else if(isBackstage(item)){
-        //this.items[i].quality = this.items[i].quality - this.items[i].quality;
-        item.quality = 0;
-      }else{
+    }else{
         decreaseQuality(item);
       }
     }
