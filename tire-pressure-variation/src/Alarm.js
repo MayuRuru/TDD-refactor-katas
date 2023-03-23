@@ -1,15 +1,9 @@
-//import Sensor from "./Sensor";
+//import PressureSensor from "./PressureSensor";
+//import ConsoleNotifier from "./ConsoleNotifier";
 
 var alarmOn = Symbol();
 export default class Alarm {
-/*  constructor() {
-    this.lowPressureThreshold = 17;
-    this.highPressureThreshold = 21;
-    this.sensor = new Sensor();
-    this[alarmOn] = false;
-  }*/
-
-  constructor(sensor,notifier) {
+  constructor(sensor, notifier) {
     this.lowPressureThreshold = 17;
     this.highPressureThreshold = 21;
     this.sensor = sensor;
