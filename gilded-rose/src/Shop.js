@@ -49,10 +49,11 @@ function updateItem(item) {
   if (isAgedBrie(item)) {
     increaseQuality(item);
     decreaseSellIn(item);
+    if (item.sellIn < 0){
+      increaseQuality(item)
+    }
   }else if (isBackstage(item)) {
     increaseQuality(item);
-    //decreaseSellIn(item);
-
     if (item.sellIn < 11) {
       increaseQuality(item);
     }
@@ -67,16 +68,10 @@ function updateItem(item) {
   }else{
     decreaseQuality(item);
     decreaseSellIn(item);
+    if(item.sellIn < 0){
+      decreaseQuality(item);
+    }
   }
 
-  //decreaseSellIn(item);
-
-  if (item.sellIn < 0) {
-    if(isAgedBrie(item)){
-      increaseQuality(item)
-    }else{
-        decreaseQuality(item);
-      }
-    }
 }
 
