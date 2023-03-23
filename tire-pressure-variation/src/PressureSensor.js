@@ -4,12 +4,13 @@ function offset() {
 
 function samplePressure() {
   // placeholder implementation that simulate a real sensor in a real tire
-  var pressureTelemetryValue = Math.floor(6 * Math.random() * Math.random());
-  return pressureTelemetryValue;
+  /*  const pressureTelemetryValue = Math.floor(6 * Math.random() * Math.random());
+    return pressureTelemetryValue;*/
+  return Math.floor(6 * Math.random() * Math.random());
 };
 
-export default class Sensor {
-  popNextPressurePsiValue() {
+export default class PressureSensor {
+  popNextValue() {
     var pressureTelemetryValue = samplePressure();
     return offset() + pressureTelemetryValue;
   }
