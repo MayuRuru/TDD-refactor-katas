@@ -5,7 +5,11 @@ export default class CoffeeMachine {
     coffee(){
 
     }
+
+    tea(){
+
+    }
     make(){
-        this.drinkMaker.receive("")
+        this.drinkMaker.receive("C::")
     }
 }

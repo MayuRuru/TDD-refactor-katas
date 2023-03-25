@@ -15,4 +15,11 @@ describe('Coffe Machine', ()=>{
         expect(drinkMaker.receive).toHaveBeenCalledTimes(1);
         expect(drinkMaker.receive).toHaveBeenCalledWith("C::")
     })
+
+    test('Make one tea', () =>{
+        coffeeMachine.tea()
+        coffeeMachine.make()
+        expect(drinkMaker.receive).toHaveBeenCalledTimes(1);
+        expect(drinkMaker.receive).toHaveBeenCalledWith("T::")
+    })
 })
