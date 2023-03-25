@@ -22,4 +22,12 @@ describe('Coffe Machine', ()=>{
         expect(drinkMaker.receive).toHaveBeenCalledTimes(1);
         expect(drinkMaker.receive).toHaveBeenCalledWith("T::")
     })
+
+    test('Make one coffee with one sugar', () =>{
+        coffeeMachine.coffee()
+        coffeeMachine.addOneSugar()
+        coffeeMachine.make()
+        expect(drinkMaker.receive).toHaveBeenCalledTimes(1);
+        expect(drinkMaker.receive).toHaveBeenCalledWith("C:1:0")
+    })
 })
