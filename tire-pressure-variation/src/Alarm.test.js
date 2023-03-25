@@ -43,14 +43,11 @@ describe('Alarm', () => {
         expect(notifier.notifyActiveState).toHaveBeenCalledTimes(1);
     })
 
-
-    test("Alarm does not notify if a changing pressure value is within range", () => {
-        sensor.popNextValue.mockReturnValueOnce(18).mockReturnValueOnce(17);
-
+    test("Deacivated alarm does not notify if a changing pressure value is within range", () => {
+        const alarm = inactiveAlarmReceiving(19)
         alarm.check();
-        alarm.check();
-
-        expect(notifier.notifyActiveState).toHaveBeenCalledTimes(0);
+        expect(notifier.notifyActiveState).toHaveBeenCalledTimes(1);
+        expect(notifier.notifyInactiveState).toHaveBeenCalledTimes(1)
     })
 
     // Extracted methods:
@@ -67,5 +64,13 @@ describe('Alarm', () => {
         return alarm
     }
 
-
+    function inactiveAlarmReceiving(value) {
+        sensor.popNextValue.mockReturnValueOnce(22)
+            .mockReturnValueOnce(18)
+            .mockReturnValueOnce(value);
+        const alarm = new Alarm(sensor, notifier)
+        alarm.check();
+        alarm.check();
+        return alarm
+    }
 });
