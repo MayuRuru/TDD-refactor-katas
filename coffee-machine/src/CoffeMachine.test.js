@@ -7,12 +7,12 @@ describe('Coffe Machine', ()=>{
     beforeEach(()=>{
         drinkMaker = {receive: jest.fn()};
         coffeeMachine = new CoffeeMachine(drinkMaker);
-    });
+    })
 
-    test('Make one coffe', () =>{
-        coffeMachine.coffe()
-        coffeMachine.make()
-        expect(drinkMaker.receive()).toHaveBeenCalledTimes(1);
-        expect(drinkMaker.receive()).toHaveBeenCalledWith("C::")
+    test('Make one coffee', () =>{
+        coffeeMachine.coffee()
+        coffeeMachine.make()
+        expect(drinkMaker.receive).toHaveBeenCalledTimes(1);
+        expect(drinkMaker.receive).toHaveBeenCalledWith("C::")
     })
 })
