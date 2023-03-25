@@ -1,0 +1,19 @@
+1. Make coffee:
+coffeeMachine.coffee()
+coffeeMachine.make()
+
+drinkMaker.receive("C::")
+
+2. Make tea:
+coffeeMachine.tea()
+coffeeMachine.make()
+
+drinkMaker.receive("T::")
+
+3. Make coffee with one sugar:
+coffeeMachine.coffee()
+coffeeMachine.addOneSugar()
+coffeeMachine.make()
+
+drinkMaker.receive("C:1:0")
+
