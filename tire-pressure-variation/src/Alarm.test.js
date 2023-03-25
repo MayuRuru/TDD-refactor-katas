@@ -7,7 +7,9 @@ describe('Alarm', () => {
 
   beforeEach(()=>{
     sensor = {popNextValue: jest.fn()};
-    notifier = {notifyActiveState: jest.fn()};
+    notifier = {
+        notifyActiveState: jest.fn(),
+        notifyInactiveState: jest.fn()}
     alarm = new Alarm(sensor, notifier);
   });
 
@@ -31,8 +33,10 @@ describe('Alarm', () => {
     sensor.popNextValue.mockReturnValueOnce(22).mockReturnValueOnce(21);
 
     alarm.check();
+    alarm.check();
 
     expect(notifier.notifyActiveState).toHaveBeenCalledTimes(1);
+    expect(notifier.notifyInactiveState).toHaveBeenCalledTimes(1);
   })
 
   test("Alarm does not notify if a changing pressure value is within range", ()=> {
@@ -43,12 +47,13 @@ describe('Alarm', () => {
     expect(notifier.notifyActiveState).toHaveBeenCalledTimes(0);
   })
 
-  xtest("Alarm already notifiyin out of range does not notify again if a changing pressure value is still out of range", ()=> {
+  test("Alarm already notifiyin out of range does not notify again if a changing pressure value is still out of range", ()=> {
     sensor.popNextValue.mockReturnValueOnce(23).mockReturnValueOnce(25);
 
     alarm.check();
+    alarm.check();
 
-    expect(notifier.notifyActiveState).toHaveBeenCalledTimes(0);
+    expect(notifier.notifyActiveState).toHaveBeenCalledTimes(1);
   })
 
 });
